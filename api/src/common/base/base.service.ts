@@ -31,6 +31,10 @@ export class BaseCrudService<T extends Document> {
     return item;
   }
 
+  async deleteMany(filter: FilterQuery<T>): Promise<any> {
+    return this.model.deleteMany(filter);
+  }
+
   async findOne(filter: FilterQuery<T>): Promise<T | null> {
     return await this.model.findOne(filter).exec();
   }

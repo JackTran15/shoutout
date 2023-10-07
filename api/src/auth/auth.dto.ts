@@ -33,4 +33,12 @@ export class AuthLoginDTO {
   password: string;
 }
 
+export class AccessTokenPayloadDTO {
+  @IsString()
+  _id: string;
+
+  @IsEmail()
+  email: string;
+}
+
 export class AuthRegisterDTO extends AuthLoginDTO {}

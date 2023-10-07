@@ -1,14 +1,10 @@
-// auth/auth.guard.ts
 import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  HttpException,
-  HttpStatus,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,6 +16,8 @@ export class AuthGuard implements CanActivate {
     if (!token) throw new UnauthorizedException('Missing token in header');
 
     const tokenPayload = await this.authService.validateAccessToken(token);
+
+    if (!tokenPayload) return false;
 
     const auth = await this.authService.findOne({
       email: tokenPayload.email,

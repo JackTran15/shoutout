@@ -4,16 +4,19 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
 import { MessagesService } from './message.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { MessageDTO } from './message.dto';
-import { GetAuth } from 'src/auth/auth.decorator';
+import { GetAuth } from '../auth/auth.decorator';
+import { Auth } from '../auth/auth.model';
 
 @Controller('messages')
 @UseGuards(AuthGuard)
@@ -21,7 +24,7 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Get()
-  getAll(@GetAuth() auth) {
+  getAll(@GetAuth() auth: Auth) {
     return this.messagesService.find({ author: auth._id });
   }
 
@@ -38,7 +41,13 @@ export class MessagesController {
   }
 
   @Delete()
-  delete(@Body() data: string) {
-    return this.messagesService.delete(data);
+  async delete(@Body() id: string, @GetAuth() auth: Auth) {
+    const exists = await this.messagesService.findById(id);
+    if (!exists) throw new NotFoundException('Messages is not exists');
+
+    if (exists.author !== auth._id)
+      throw new ForbiddenException('You do not own this message');
+
+    return this.messagesService.delete(id);
   }
 }

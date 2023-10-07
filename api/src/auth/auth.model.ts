@@ -1,20 +1,25 @@
-import * as mongoose from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export const AuthSchema = new mongoose.Schema({
-  email: { type: String, require: true, unique: true },
-  password: { type: String, require: true },
-  refreshToken: { type: String, require: true },
-  salt: { type: String, require: true },
-  createdAt: { type: Date, default: new Date() },
-  updatedAt: { type: Date, default: new Date() },
-});
-
-export interface Auth extends mongoose.Document {
+@Schema({ collection: 'auths' })
+export class Auth extends Document {
+  @Prop({ required: true, unique: true })
   email: string;
+
+  @Prop({ required: true })
   password: string;
-  refreshToken: string;
+
+  // @Prop({ required: true })
+  // refreshToken: string;
+
+  @Prop({ required: true })
   salt: string;
+
+  @Prop({ default: new Date() })
   createdAt: Date;
-  author: mongoose.Types.ObjectId;
+
+  @Prop({ default: new Date() })
   updatedAt: Date;
 }
+
+export const AuthSchema = SchemaFactory.createForClass(Auth);

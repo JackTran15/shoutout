@@ -1,14 +1,13 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Auth } from '../auth/auth.model';
 import * as bcrypt from 'bcrypt';
-import { AuthDto, AuthLoginDTO, AuthRegisterDTO } from './auth.dto';
-import { BaseCrudService } from 'src/common/base';
+import {
+  AccessTokenPayloadDTO,
+  AuthLoginDTO,
+  AuthRegisterDTO,
+} from './auth.dto';
+import { BaseCrudService } from '../common/base';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -22,9 +21,11 @@ export class AuthService extends BaseCrudService<Auth> {
   }
 
   async validateAccessToken(token: string) {
-    const payload = await this.jwtService.verifyAsync(token).catch((err) => {
-      throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
-    });
+    const payload = await this.jwtService
+      .verifyAsync<AccessTokenPayloadDTO>(token)
+      .catch((err) => {
+        throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+      });
 
     return payload;
   }
@@ -82,6 +83,8 @@ export class AuthService extends BaseCrudService<Auth> {
 
     const accessToken = this.generateAccessToken(account);
     const refreshToken = this.generateRefreshToken(account);
+
+    delete account.password;
 
     return {
       account,

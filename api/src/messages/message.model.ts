@@ -1,16 +1,19 @@
-import * as mongoose from 'mongoose';
-import { Auth } from 'nats';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export const MessageSchema = new mongoose.Schema({
-  content: { type: String, required: true, maxLength: 280 },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'auth', required: true },
-  updatedAt: { type: Date, default: new Date() },
-  createdAt: { type: Date, default: new Date() },
-});
-
-export interface Message extends mongoose.Document {
+@Schema({ collection: 'messages' })
+export class Message extends Document {
+  @Prop({ required: true, maxlength: 280 })
   content: string;
-  author: mongoose.Types.ObjectId | string | Auth;
+
+  @Prop({ type: String, ref: 'auth', required: true })
+  author: string;
+
+  @Prop({ default: new Date() })
   updatedAt: Date;
+
+  @Prop({ default: new Date() })
   createdAt: Date;
 }
+
+export const MessageSchema = SchemaFactory.createForClass(Message);
