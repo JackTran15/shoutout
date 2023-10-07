@@ -5,7 +5,6 @@ import { AuthLoginDTO, AuthRegisterDTO } from './auth.dto';
 
 describe('AuthController', () => {
   let authController: AuthController;
-  let authService: AuthService;
 
   const mockAuthService = {
     register: jest.fn(),
@@ -25,7 +24,6 @@ describe('AuthController', () => {
     }).compile();
 
     authController = module.get<AuthController>(AuthController);
-    authService = module.get<AuthService>(AuthService);
   });
 
   it('should be defined', () => {

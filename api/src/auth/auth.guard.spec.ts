@@ -5,7 +5,6 @@ import { AuthService } from '../auth/auth.service';
 
 describe('AuthGuard', () => {
   let authGuard: AuthGuard;
-  let authService: AuthService;
 
   const mockAuthService = {
     validateAccessToken: jest.fn(),
@@ -24,7 +23,6 @@ describe('AuthGuard', () => {
     }).compile();
 
     authGuard = module.get<AuthGuard>(AuthGuard);
-    authService = module.get<AuthService>(AuthService);
   });
 
   it('should be defined', () => {

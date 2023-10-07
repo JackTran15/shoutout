@@ -7,7 +7,6 @@ import { Auth } from '../auth/auth.model';
 
 describe('MessagesController', () => {
   let messagesController: MessagesController;
-  let messagesService: MessagesService;
 
   const mockMessagesService = {
     create: jest.fn(),
@@ -33,7 +32,6 @@ describe('MessagesController', () => {
       .compile();
 
     messagesController = module.get<MessagesController>(MessagesController);
-    messagesService = module.get<MessagesService>(MessagesService);
   });
 
   it('should be defined', () => {

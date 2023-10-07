@@ -23,8 +23,8 @@ export class AuthService extends BaseCrudService<Auth> {
   async validateAccessToken(token: string) {
     const payload = await this.jwtService
       .verifyAsync<AccessTokenPayloadDTO>(token)
-      .catch((err) => {
-        throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
+      .catch((error) => {
+        throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
       });
 
     return payload;

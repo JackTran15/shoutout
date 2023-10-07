@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { MongooseModule, getModelToken } from '@nestjs/mongoose';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import { MongooseModule } from '@nestjs/mongoose';
+import { JwtModule } from '@nestjs/jwt';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { Auth, AuthSchema } from './auth.model';
-import { AuthRegisterDTO, AuthLoginDTO } from './auth.dto';
+import { AuthSchema } from './auth.model';
+import { AuthRegisterDTO } from './auth.dto';
 import { HttpStatus } from '@nestjs/common';
 import mongoose from 'mongoose';
 
