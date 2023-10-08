@@ -1,0 +1,66 @@
+.linear-background {
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    90deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 39%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+
+.dashboard {
+  position: relative;
+  width: 97svw;
+  max-width: 1280px;
+  height: 100svh;
+  max-height: 800px;
+  display: grid;
+  border-radius: 10px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 80px;
+  gap: 20px;
+}
+
+.messages {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.226);
+  border-radius: 15px;
+}
+
+.messages-form-container {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.67);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: 60px 1fr 100px;
+  grid-template-rows: 1fr;
+  gap: 20px;
+  padding: 10px;
+}
+
+.message-input {
+  width: 100%;
+  height: 100%;
+  border: none !important;
+  outline: none !important;
+  text-indent: 15px;
+  background-color: transparent;
+}
+
+.messages-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  background: #ffffff;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+  border-radius: 7px;
+  padding: 3px 5px;
+}

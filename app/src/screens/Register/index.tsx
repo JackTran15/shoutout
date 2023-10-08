@@ -1,9 +1,7 @@
 import {
-  Button,
   Container,
   Form,
   FormGroup,
-  Input,
   Label,
   UncontrolledAlert,
 } from "reactstrap";
@@ -18,12 +16,13 @@ import { ControlTextInput } from "../../components/ControlTextInput";
 import { LoadingButton } from "../../components/LoadingButton";
 
 export function RegisterScreen() {
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm({
+  const { handleSubmit, control } = useForm({
     resolver: yupResolver(registerSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const { register, isLoading, data: registerData, error } = useRegister();
@@ -37,10 +36,14 @@ export function RegisterScreen() {
   return (
     <Container
       fluid
-      className="bg-gray d-flex justify-content-center align-items-center mt-5"
+      className="bg-gray d-flex justify-content-center align-items-center"
     >
-      <Form className="loginForm p-5 d-block" onSubmit={handleSubmit(submit)}>
+      <Form
+        className="loginForm d-block p-lg-5 p-3 main-bg"
+        onSubmit={handleSubmit(submit)}
+      >
         <h3 className="text-center">REGISTER NEW ACCOUNT</h3>
+        <br />
         {error?.message && (
           <UncontrolledAlert color="danger mt-2 mb-2">
             {error?.message}
@@ -50,7 +53,6 @@ export function RegisterScreen() {
           <Label>Email address</Label>
           <ControlTextInput
             control={control}
-            errors={errors}
             className="form-control"
             type="email"
             placeholder="Enter email"
@@ -62,7 +64,6 @@ export function RegisterScreen() {
           <Label>Password</Label>
           <ControlTextInput
             control={control}
-            errors={errors}
             type="password"
             placeholder="Password"
             className="form-control"
@@ -74,7 +75,6 @@ export function RegisterScreen() {
           <Label>Confirm Password</Label>
           <ControlTextInput
             control={control}
-            errors={errors}
             type="password"
             placeholder="Confirm password"
             className="form-control"

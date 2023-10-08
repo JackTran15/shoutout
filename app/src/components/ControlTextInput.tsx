@@ -3,7 +3,6 @@ import { Controller } from "react-hook-form";
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   control: any;
   name: string;
-  errors: any;
 };
 export const ControlTextInput = (props: Props) => {
   const { control, name, ...restProps } = props;
@@ -15,7 +14,12 @@ export const ControlTextInput = (props: Props) => {
       render={({ field: { ref, ...field }, formState }) => {
         return (
           <div ref={ref} {...field}>
-            <input type="text" {...restProps} name={name} />
+            <input
+              type="text"
+              {...restProps}
+              name={name}
+              defaultValue={field.value}
+            />
             {formState.errors?.[name] && (
               <small className="text-danger mt-1">
                 {formState.errors[name]?.message?.toString()}
