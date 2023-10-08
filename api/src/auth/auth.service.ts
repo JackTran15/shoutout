@@ -63,17 +63,13 @@ export class AuthService extends BaseCrudService<Auth> {
   async login(data: AuthLoginDTO) {
     const { email, password } = data;
 
-    const account = await this.authModel.findOne({
-      email,
-    });
+    const account = await this.findOne({ email });
 
     if (!account)
       throw new HttpException('Account not found', HttpStatus.UNAUTHORIZED);
 
-    const isValidPassword = await bcrypt.compareSync(
-      password,
-      account.password,
-    );
+    const { password: accountPassword, salt: _, ...accountInfo } = account;
+    const isValidPassword = await bcrypt.compareSync(password, accountPassword);
 
     if (!isValidPassword)
       throw new HttpException(
@@ -81,13 +77,15 @@ export class AuthService extends BaseCrudService<Auth> {
         HttpStatus.UNAUTHORIZED,
       );
 
-    const accessToken = this.generateAccessToken(account);
-    const refreshToken = this.generateRefreshToken(account);
+    const accessToken = this.generateAccessToken({
+      email: accountInfo.email,
+      _id: accountInfo._id || '',
+    });
 
-    delete account.password;
+    const refreshToken = this.generateRefreshToken({ _id: accountInfo._id });
 
     return {
-      account,
+      account: accountInfo,
       accessToken,
       refreshToken,
     };

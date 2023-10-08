@@ -15,7 +15,7 @@ import {
 import { MessagesService } from './message.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { MessageDTO } from './message.dto';
-import { GetAuth } from '../auth/auth.decorator';
+import { GetAuth } from '../decorators/auth.decorator';
 import { Auth } from '../auth/auth.model';
 
 @Controller('messages')
@@ -25,6 +25,7 @@ export class MessagesController {
 
   @Get()
   getAll(@GetAuth() auth: Auth) {
+    console.log('callled');
     return this.messagesService.find({ author: auth._id });
   }
 

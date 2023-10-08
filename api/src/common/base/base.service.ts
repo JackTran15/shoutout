@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, ProjectionType, QueryOptions } from 'mongoose';
 import { Model, Document } from 'mongoose';
 
 @Injectable()
@@ -35,8 +35,8 @@ export class BaseCrudService<T extends Document> {
     return this.model.deleteMany(filter);
   }
 
-  async findOne(filter: FilterQuery<T>): Promise<T | null> {
-    return await this.model.findOne(filter).exec();
+  async findOne(filter: FilterQuery<T>, select?: string): Promise<T | null> {
+    return await this.model.findOne(filter).select(select).lean();
   }
 
   async find(
