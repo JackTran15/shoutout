@@ -6,11 +6,11 @@ import {
   UncontrolledAlert,
 } from "reactstrap";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { RegisterSchema, registerSchema } from "../../schemas/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRegister } from "../../hooks";
+import { useLogin, useRegister } from "../../hooks";
 import { useEffect } from "react";
 import { ControlTextInput } from "../../components/ControlTextInput";
 import { LoadingButton } from "../../components/LoadingButton";
@@ -25,13 +25,26 @@ export function RegisterScreen() {
     },
   });
 
-  const { register, isLoading, data: registerData, error } = useRegister();
+  const { register, isLoading, error } = useRegister();
+  const { login, isLoading: isLogingin } = useLogin();
+  const navigate = useNavigate();
 
-  const submit = (data: RegisterSchema) => register(data);
-
-  useEffect(() => {
-    if (registerData) console.log({ registerData });
-  }, [registerData]);
+  const submit = (data: RegisterSchema) =>
+    register(data, {
+      onSuccess(data, variables, context) {
+        login(
+          {
+            email: variables.email,
+            password: variables.password,
+          },
+          {
+            onSuccess: () => {
+              navigate("/");
+            },
+          }
+        );
+      },
+    });
 
   return (
     <Container
@@ -84,12 +97,12 @@ export function RegisterScreen() {
 
         <FormGroup className="justify-content-center row ">
           <LoadingButton
-            loading={isLoading}
+            loading={isLoading || isLogingin}
             loaderColor="light"
             className="algin-right col-6 mt-3"
             color="primary"
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || isLogingin}
           >
             Register
           </LoadingButton>

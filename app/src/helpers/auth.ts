@@ -14,7 +14,6 @@ export const saveAuthentication = (params: {
   account: Auth;
   accessToken: string;
 }) => {
-  console.log(params);
   accessToken = params.accessToken;
   saveToLocalStorage(LocalStorageKeys.user, params.account);
 };

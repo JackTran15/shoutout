@@ -26,7 +26,7 @@ export const SentMessage = ({ data }: Props) => {
       >
         x
       </LoadingButton>
-      <div className="btn btn-success d-block sent-message-content">
+      <div className="btn btn-primary d-block sent-message-content">
         {content}
       </div>
     </div>

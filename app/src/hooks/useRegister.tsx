@@ -10,7 +10,6 @@ export const useRegister = () => {
         .post("/auth/register", input)
         .then((res) => res.data)
         .catch((error: ApiErrorResponse) => {
-          console.log(error);
           if (error?.response?.data.statusCode == HttpStatusCode.Conflict)
             throw new Error("Account already exists");
           throw new Error(error?.response?.data.message);
