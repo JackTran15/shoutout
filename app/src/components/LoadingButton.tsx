@@ -17,7 +17,11 @@ export const LoadingButton = (props: Props) => {
   const { loading, loaderColor, ...restProps } = props;
   return (
     <Button {...restProps} disabled={loading}>
-      {loading ? <Spinner color={loaderColor} size={'sm'} /> : props.children}
+      {loading ? (
+        <Spinner data-testid="loading-spinner" color={loaderColor} size={"sm"} />
+      ) : (
+        props.children
+      )}
     </Button>
   );
 };

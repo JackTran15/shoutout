@@ -1,11 +1,12 @@
 import { useMutation } from "react-query";
 import { ApiErrorResponse } from "../types";
 import authenticatedApiClient from "../api/authenticatedApiClient";
+import { API_ENDPOINTS } from "../helpers";
 
 export const useDeleteMessage = () => {
   const { mutate, isLoading, data, error } = useMutation((id: string) => {
     return authenticatedApiClient
-      .delete("/messages/" + id)
+      .delete(API_ENDPOINTS.deleteMessage(id))
       .then((res) => res.data)
       .catch((error: ApiErrorResponse) => {
         throw new Error(error?.response?.data.message);

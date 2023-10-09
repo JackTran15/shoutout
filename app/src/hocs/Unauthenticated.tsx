@@ -1,4 +1,4 @@
-import { getAuth } from "../helpers/auth";
+import { getAuth } from "../helpers";
 import { Navigate } from "react-router-dom";
 
 export const Unauthenticated = (props: any) => {

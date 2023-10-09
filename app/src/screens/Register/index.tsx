@@ -30,7 +30,7 @@ export function RegisterScreen() {
 
   const submit = (data: RegisterSchema) =>
     register(data, {
-      onSuccess(data, variables, context) {
+      onSuccess(variables) {
         login(
           {
             email: variables.email,

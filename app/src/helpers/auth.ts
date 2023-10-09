@@ -28,6 +28,7 @@ export const getAuth = () => {
   try {
     return stringData ? (JSON.parse(stringData) as Auth) : undefined;
   } catch (e) {
+    console.error(e);
     return undefined;
   }
 };

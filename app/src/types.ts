@@ -8,14 +8,14 @@ export type ApiErrorResponse = AxiosError<{
 export type Auth = {
   email: string;
   _id: string;
-  createdAt: string;
-  udpatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 };
 
 export type MessageDTO = {
   _id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   author: string;
   content: string;
 };

@@ -20,7 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { MessageSchema, messageSchema } from "../../schemas/message";
 import { ControlTextInput } from "../../components/ControlTextInput";
 import { toast } from "react-toastify";
-import { usePostMessage } from "../../hooks/usePostMessage";
+import { useCreateMessage } from "../../hooks/useCreateMessage";
 import { useNavigate } from "react-router-dom";
 import { clearAuthentication } from "../../helpers";
 import { MessageHistories } from "./MessageHistories";
@@ -41,10 +41,10 @@ export function Dashboard() {
 
   const content = watch("content");
 
-  const { postMessage, isLoading: sending } = usePostMessage();
+  const { createMessage, isLoading: sending } = useCreateMessage();
 
   const submit = (data: MessageSchema) =>
-    postMessage(data, {
+    createMessage(data, {
       onSuccess: () => {
         setValue("content", "");
         setFocus("content");

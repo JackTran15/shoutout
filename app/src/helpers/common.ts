@@ -13,3 +13,5 @@ export const saveToLocalStorage = (key: LocalStorageKeys, data: any) => {
 export const removeFromLocalStorage = (key: LocalStorageKeys) => {
   localStorage.removeItem(key);
 };
+
+export const sleep = (ms: number) => setTimeout(() => Promise.resolve(), ms);
