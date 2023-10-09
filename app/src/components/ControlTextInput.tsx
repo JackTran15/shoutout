@@ -14,8 +14,14 @@ export const ControlTextInput = (props: Props) => {
       control={control}
       render={({ field: { ref, ...field }, formState }) => {
         return (
-          <div ref={ref} {...field}>
-            <input type="text" value={field.value} {...restProps} name={name} />
+          <div {...field}>
+            <input
+              type="text"
+              {...field}
+              {...restProps}
+              name={name}
+              ref={ref}
+            />
             {showError && formState.errors?.[name] && (
               <small className="text-danger mt-1">
                 {formState.errors[name]?.message?.toString()}

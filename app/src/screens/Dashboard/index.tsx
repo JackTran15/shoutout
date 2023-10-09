@@ -1,22 +1,38 @@
 import { Button, Container, Form, FormGroup, Spinner } from "reactstrap";
 import { useMessages } from "../../hooks/useMessages";
 import "./styles.css";
-import { useForm } from "react-hook-form";
+import {
+  ErrorOption,
+  Field,
+  FieldArray,
+  FieldArrayPath,
+  FieldError,
+  FieldErrors,
+  FieldValues,
+  FormState,
+  RegisterOptions,
+  SubmitErrorHandler,
+  SubmitHandler,
+  UseFormRegisterReturn,
+  useForm,
+} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { MessageSchema, messageSchema } from "../../schemas/message";
 import { ControlTextInput } from "../../components/ControlTextInput";
-import { LoadingButton } from "../../components/LoadingButton";
+import { toast } from "react-toastify";
 import { usePostMessage } from "../../hooks/usePostMessage";
-import { SentMessage } from "../../components/SentMessage";
 import { useNavigate } from "react-router-dom";
 import { clearAuthentication } from "../../helpers";
+import { MessageHistories } from "./MessageHistories";
+import { SendMessageForm } from "./SendMessageForm";
+import { BaseSyntheticEvent } from "react";
 
 const MAX_CHARS = 280;
 
 export function Dashboard() {
   const navigate = useNavigate();
   const messages = useMessages();
-  const { handleSubmit, control, watch, setValue } = useForm({
+  const { handleSubmit, control, watch, setValue, setFocus } = useForm({
     resolver: yupResolver<MessageSchema>(messageSchema),
     defaultValues: {
       content: "",
@@ -25,13 +41,22 @@ export function Dashboard() {
 
   const content = watch("content");
 
-  const { postMessage, isLoading: posting } = usePostMessage();
+  const { postMessage, isLoading: sending } = usePostMessage();
 
   const submit = (data: MessageSchema) =>
     postMessage(data, {
       onSuccess: () => {
         setValue("content", "");
+        setFocus("content");
         messages.refetch();
+      },
+      onError() {
+        toast.error("Message sent unsuccessfully", {
+          position: "top-left",
+          autoClose: 1000,
+          hideProgressBar: true,
+          draggable: false,
+        });
       },
     });
 
@@ -44,60 +69,21 @@ export function Dashboard() {
     <>
       <title>Dashboard</title>
       <Container className="main-bg dashboard p-lg-5 p-3">
-        <Button className="logout-btn" color="dark" onClick={() => logout()}>
+        <div className="logout-btn" onClick={() => logout()}>
           Logout
-        </Button>
-        <div className="messages d-flex align-items-center justify-content-center">
-          {messages.isLoading && (
-            <Spinner color="light" style={{ width: 45, height: 45 }} />
-          )}
-
-          {messages.data && (
-            <div className="messages-histories">
-              {messages.data?.map((e: any) => (
-                <SentMessage data={e} key={e._id} />
-              ))}
-            </div>
-          )}
         </div>
-        <Form
-          className="messages-form-container p-md-2 p-sm-1"
+        <MessageHistories
+          onMessageDeleted={() => {
+            setFocus("content");
+          }}
+        />
+        <SendMessageForm
           onSubmit={handleSubmit(submit)}
-        >
-          <div className="messages-counter">
-            <small>
-              {content.length}/{MAX_CHARS}
-            </small>
-          </div>
-          <ControlTextInput
-            control={control}
-            type="text"
-            placeholder="Type messages here..."
-            className="message-input"
-            maxLength={MAX_CHARS}
-            name={"content"}
-            autoComplete="off"
-            showError={false}
-          />
-
-          <button
-            className={`
-              send-message-btn 
-              ${posting ? "send-message-btn-disabled" : ""}
-            `}
-            type="submit"
-            style={{ outline: "none", border: "none", background: "none" }}
-            disabled={!content.length || posting}
-          >
-            <img
-              src="/send.png"
-              alt=""
-              className="d-block"
-              width={30}
-              height={30}
-            />
-          </button>
-        </Form>
+          control={control}
+          maxChars={MAX_CHARS}
+          sending={sending}
+          content={content}
+        />
       </Container>
     </>
   );
