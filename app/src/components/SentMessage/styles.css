@@ -1,0 +1,19 @@
+.sent-message-content {
+  max-width: 80%;
+  word-wrap: break-word;
+  margin-right: 3;
+  text-align: left;
+}
+
+.delete-message-btn {
+  display: none;
+  opacity: 0.4;
+}
+
+.delete-message-btn:hover {
+  opacity: 1;
+}
+
+.sent-message:hover .delete-message-btn {
+  display: block;
+}

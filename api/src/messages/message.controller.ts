@@ -25,12 +25,12 @@ export class MessagesController {
 
   @Get()
   getAll(@GetAuth() auth: Auth) {
-    console.log('callled');
     return this.messagesService.find({ author: auth._id });
   }
 
   @Post('/create')
-  create(@Body() data: MessageDTO) {
+  create(@Body() data: MessageDTO, @GetAuth() auth: Auth) {
+    data.author = auth._id;
     return this.messagesService.create(data);
   }
 
@@ -41,12 +41,12 @@ export class MessagesController {
     return this.messagesService.update(id, data);
   }
 
-  @Delete()
-  async delete(@Body() id: string, @GetAuth() auth: Auth) {
+  @Delete(':id')
+  async delete(@Param('id') id: string, @GetAuth() auth: Auth) {
     const exists = await this.messagesService.findById(id);
     if (!exists) throw new NotFoundException('Messages is not exists');
 
-    if (exists.author !== auth._id)
+    if (exists.author.toString() !== auth._id.toString())
       throw new ForbiddenException('You do not own this message');
 
     return this.messagesService.delete(id);

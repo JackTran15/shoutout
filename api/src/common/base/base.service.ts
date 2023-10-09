@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FilterQuery, ProjectionType, QueryOptions } from 'mongoose';
+import { FilterQuery, ProjectionType, QueryOptions, SortOrder } from 'mongoose';
 import { Model, Document } from 'mongoose';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class BaseCrudService<T extends Document> {
     skip?: number,
     limit?: number,
   ): Promise<T[]> {
-    const pipline = this.model.find(filter);
+    const pipline = this.model.find(filter).sort({ _id: 1, createdAt: -1 });
     const _skip = skip || 0;
     const _limit = limit || 0;
 

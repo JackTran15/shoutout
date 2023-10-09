@@ -11,3 +11,11 @@ export type Auth = {
   createdAt: string;
   udpatedAt: string;
 };
+
+export type MessageDTO = {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  author: string;
+  content: string;
+};
