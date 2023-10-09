@@ -36,7 +36,7 @@ export function LoginScreen() {
         className="bg-gray d-flex justify-content-center align-items-center"
       >
         <Form
-          className="loginForm d-block p-lg-5 p-3 main-bg"
+          className="loginForm d-block p-md-5 p-3 main-bg"
           onSubmit={handleSubmit(submit)}
         >
           <h3 className="text-center">LOGIN TO AN ACCOUNT</h3>

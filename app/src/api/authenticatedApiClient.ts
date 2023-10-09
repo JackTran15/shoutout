@@ -1,10 +1,11 @@
 import axios from "axios";
 import {
-  LocalStorageKeys,
   clearAuthentication,
   getAccessToken,
   setAccessToken,
 } from "../helpers";
+
+import { toast } from "react-toastify";
 
 export const authenticatedApiClient = axios.create({
   baseURL: "http://localhost:3000",
@@ -50,7 +51,17 @@ authenticatedApiClient.interceptors.response.use(
         return authenticatedApiClient(originalRequest);
       } catch (error) {
         clearAuthentication();
-        window.location.href = "/login";
+        toast.error("Session expried", {
+          position: "top-left",
+          autoClose: 1000,
+          hideProgressBar: true,
+          draggable: false,
+        });
+
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1000);
+
         return Promise.reject(error);
       }
     }

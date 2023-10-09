@@ -14,7 +14,7 @@ export const useMessages = () => {
             error?.response?.data?.message || "Something went wrong"
           );
         }),
-    cacheTime: 200,
+    refetchOnMount: false,
   });
 
   return query;

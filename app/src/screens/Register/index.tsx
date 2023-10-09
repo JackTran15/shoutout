@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { RegisterSchema, registerSchema } from "../../schemas/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLogin, useRegister } from "../../hooks";
-import { useEffect } from "react";
 import { ControlTextInput } from "../../components/ControlTextInput";
 import { LoadingButton } from "../../components/LoadingButton";
 
@@ -52,7 +51,7 @@ export function RegisterScreen() {
       className="bg-gray d-flex justify-content-center align-items-center"
     >
       <Form
-        className="loginForm d-block p-lg-5 p-3 main-bg"
+        className="loginForm d-block p-md-5 p-3 main-bg"
         onSubmit={handleSubmit(submit)}
       >
         <h3 className="text-center">REGISTER NEW ACCOUNT</h3>
