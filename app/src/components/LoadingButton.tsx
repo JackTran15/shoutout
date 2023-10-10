@@ -16,7 +16,7 @@ type Props = ButtonProps & {
 export const LoadingButton = (props: Props) => {
   const { loading, loaderColor, ...restProps } = props;
   return (
-    <Button {...restProps} disabled={loading}>
+    <Button className="loading-btn" {...restProps} disabled={loading}>
       {loading ? (
         <Spinner data-testid="loading-spinner" color={loaderColor} size={"sm"} />
       ) : (
