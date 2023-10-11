@@ -1,8 +1,8 @@
 import { Body, Controller, Patch, Post, Put, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthLoginDTO, AuthRegisterDTO } from './auth.dto';
-import { ParsedUserAgent, UserAgent } from 'src/decorators/userAgent.decorator';
-import { RefreshToken } from 'src/decorators/refreshToken.decorator';
+import { ParsedUserAgent, UserAgent } from '../decorators/userAgent.decorator';
+import { RefreshToken } from '../decorators/refreshToken.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +16,7 @@ export class AuthController {
   @Put('login')
   async login(
     @Body() data: AuthLoginDTO,
-    @UserAgent() userAgent,
+    @UserAgent() userAgent: ParsedUserAgent,
     @Res({ passthrough: true }) res,
   ) {
     const { refreshToken, accessToken, account } = await this.service.login(
@@ -28,7 +28,7 @@ export class AuthController {
     });
 
     const result: any = { accessToken, account };
-    if (!userAgent.browser?.name) result.refreshToken = refreshToken;
+    if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
     return result;
   }
 
@@ -45,7 +45,7 @@ export class AuthController {
     });
 
     const result: any = { accessToken };
-    if (!userAgent.browser?.name) result.refreshToken = refreshToken;
+    if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
     return result;
   }
 }

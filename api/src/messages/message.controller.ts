@@ -24,21 +24,17 @@ import { Auth } from '../auth/auth.model';
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
-  @Get()
-  getAll(@GetAuth() auth: Auth) {
-    return this.messagesService.find({ author: auth._id });
-  }
-
   @Get('/personal')
   getPersonalMessages(
     @GetAuth() auth: Auth,
-    @Query('skip') skip: number,
+    @Query('cursor') endCursor: string,
     @Query('limit') limit: number,
   ) {
-    return this.messagesService.findPersonalMessages(
-      { author: auth._id },
-      { skip, limit },
-    );
+    return this.messagesService.findPersonalMessagesWithCursor({
+      authorId: auth._id,
+      endCursor,
+      limit,
+    });
   }
 
   @Post('/create')

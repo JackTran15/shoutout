@@ -34,7 +34,7 @@ describe('AuthGuard', () => {
       switchToHttp: () => ({
         getRequest: () => ({
           headers: {
-            token: 'valid_token',
+            authorization: 'valid_token',
           },
         }),
       }),
@@ -71,7 +71,7 @@ describe('AuthGuard', () => {
         await authGuard.canActivate(context);
       } catch (error) {
         expect(error).toBeInstanceOf(UnauthorizedException);
-        expect(error.message).toBe('Missing token in header');
+        expect(error.message).toBe('Unauthenticated');
       }
     });
 

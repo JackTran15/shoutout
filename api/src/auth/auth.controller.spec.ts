@@ -58,10 +58,13 @@ describe('AuthController', () => {
       };
       const accessToken = 'valid_access_token';
       const refreshToken = 'valid_refresh_token';
+      const mockRes = {
+        cookie: jest.fn(),
+      };
 
       mockAuthService.login.mockResolvedValue({ accessToken, refreshToken });
 
-      const result = await authController.login(loginDTO);
+      const result = await authController.login(loginDTO, undefined, mockRes);
 
       expect(result).toEqual({ accessToken, refreshToken });
       expect(mockAuthService.login).toHaveBeenCalledWith(loginDTO);
@@ -79,7 +82,14 @@ describe('AuthController', () => {
         refreshToken,
       });
 
-      const result = await authController.renewTokens(tokenData);
+      const mockRes = {
+        cookie: jest.fn(),
+      };
+      const result = await authController.renewTokens(
+        tokenData.token,
+        undefined,
+        mockRes,
+      );
 
       expect(result).toEqual({ accessToken, refreshToken });
       expect(mockAuthService.renewTokens).toHaveBeenCalledWith(tokenData.token);

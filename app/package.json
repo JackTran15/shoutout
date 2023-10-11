@@ -6,9 +6,9 @@
     "coverage": "vitest run --coverage",
     "dev": "vite",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --run --silent",
     "test:ui": "vitest --ui",
-    "test:ci": "vitest --run --silent"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",

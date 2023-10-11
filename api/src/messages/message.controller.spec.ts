@@ -15,6 +15,7 @@ describe('MessagesController', () => {
     update: jest.fn(),
     delete: jest.fn(),
     udpateOne: jest.fn(),
+    findPersonalMessagesWithCursor: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -42,13 +43,23 @@ describe('MessagesController', () => {
     it('should return messages for authenticated user', async () => {
       const auth = { _id: 'user123' };
       const mockMessages = [{ content: 'Hello', author: 'user123' }];
-      mockMessagesService.find.mockResolvedValue(mockMessages);
+      mockMessagesService.findPersonalMessagesWithCursor.mockResolvedValue(
+        mockMessages,
+      );
 
-      const result = await messagesController.getAll(auth as Auth);
+      const result = await messagesController.getPersonalMessages(
+        auth as Auth,
+        undefined,
+        undefined,
+      );
 
       expect(result).toEqual(mockMessages);
-      expect(mockMessagesService.find).toHaveBeenCalledWith({
-        author: auth._id,
+      expect(
+        mockMessagesService.findPersonalMessagesWithCursor,
+      ).toHaveBeenCalledWith({
+        authorId: auth._id,
+        endCursor: undefined,
+        limit: undefined,
       });
     });
   });
@@ -60,13 +71,21 @@ describe('MessagesController', () => {
         author: 'user123',
         updatedAt: new Date(),
       };
+
+      const auth = {
+        _id: 'user123',
+      } as Auth;
+
       const createdMessage = { ...messageDTO, _id: 'message123' };
       mockMessagesService.create.mockResolvedValue(createdMessage);
 
-      const result = await messagesController.create(messageDTO);
+      const result = await messagesController.create(messageDTO, auth);
 
       expect(result).toEqual(createdMessage);
-      expect(mockMessagesService.create).toHaveBeenCalledWith(messageDTO);
+      expect(mockMessagesService.create).toHaveBeenCalledWith({
+        ...messageDTO,
+        author: auth._id,
+      });
     });
   });
 

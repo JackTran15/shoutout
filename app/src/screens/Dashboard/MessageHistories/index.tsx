@@ -38,13 +38,10 @@ export const MessageHistories = (props: Props) => {
     historiesRef.current.scrollTop = 0;
   }, [props.messagesCreated]);
 
-  const displayMessages2 = useMemo(
-    () =>
-      messages.data?.pages
-        ?.map((e) => e.data)
-        .reduce((arr, data) => [...arr, ...data], []) || [],
-    [JSON.stringify(messages.data?.pages)]
-  );
+  const displayMessages2 =
+    messages.data?.pages
+      ?.map((e) => e.data)
+      .reduce((arr, data) => [...arr, ...data], []) || [];
 
   return (
     <div className="messages d-flex align-items-center justify-content-center">
@@ -67,14 +64,18 @@ export const MessageHistories = (props: Props) => {
         </div>
       )}
 
-      <h2 className="messages-load-error">{"Cannot load messages"}</h2>
+      {messages.error ? (
+        <h2 className="messages-load-error">{"Cannot load messages"}</h2>
+      ) : (
+        <></>
+      )}
 
-      {/* {messages.isLoading && (
+      {messages.isLoading && (
         <Spinner
           color="light"
           style={{ width: 40, height: 40, opacity: 0.3 }}
         />
-      )} */}
+      )}
     </div>
   );
 };

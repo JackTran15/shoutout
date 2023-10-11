@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import authenticatedApiClient from "../api/authenticatedApiClient";
 import { ApiErrorResponse } from "../types";
 import { API_ENDPOINTS } from "../helpers";
@@ -8,7 +8,7 @@ export const useMessages = () => {
     refetchOnMount: false,
     queryKey: ["getMessages"],
 
-    queryFn: ({ pageParam = "?skip=0&limit=10" }) =>
+    queryFn: ({ pageParam = "?limit=10" }) =>
       authenticatedApiClient
         .get(API_ENDPOINTS.getPersonalMessages + pageParam)
         .then((res) => res.data)
@@ -18,12 +18,11 @@ export const useMessages = () => {
           );
         }),
     getNextPageParam: (lastPage: any, allPages: any[]) => {
-      const loaded = +lastPage.skip + +lastPage.limit;
-      const total = +lastPage.total;
-
-      return loaded > +total
+      return lastPage.data.length < lastPage
         ? undefined
-        : `?skip=${loaded}&limit=${lastPage.limit}`;
+        : `?limit=${lastPage.limit}&cursor=${
+            lastPage.data[lastPage.data.length - 1]?._id
+          }`;
     },
   });
 

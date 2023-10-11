@@ -1,7 +1,11 @@
+import { QueryClient } from "react-query";
+
 export enum LocalStorageKeys {
   refreshToken = "app_rt",
   user = "user",
 }
+
+export const queryClient = new QueryClient();
 
 export const saveToLocalStorage = (key: LocalStorageKeys, data: any) => {
   localStorage.setItem(

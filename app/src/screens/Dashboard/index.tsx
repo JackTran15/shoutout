@@ -22,7 +22,7 @@ import { ControlTextInput } from "../../components/ControlTextInput";
 import { toast } from "react-toastify";
 import { useCreateMessage } from "../../hooks/useCreateMessage";
 import { useNavigate } from "react-router-dom";
-import { clearAuthentication } from "../../helpers";
+import { clearAuthentication, queryClient } from "../../helpers";
 import { MessageHistories } from "./MessageHistories";
 import { SendMessageForm } from "./SendMessageForm";
 import { BaseSyntheticEvent } from "react";
@@ -43,9 +43,9 @@ export function Dashboard() {
 
   const { createMessage, isLoading: sending } = useCreateMessage();
 
-  const submit = (data: MessageSchema) =>
-    createMessage(data, {
-      onSuccess: () => {
+  const submit = (input: MessageSchema) =>
+    createMessage(input, {
+      onSuccess: (data) => {
         setValue("content", "" as never);
         setFocus("content");
         messages.refetch();
@@ -61,6 +61,7 @@ export function Dashboard() {
     });
 
   const logout = () => {
+    queryClient.clear();
     clearAuthentication();
     navigate("/login");
   };
