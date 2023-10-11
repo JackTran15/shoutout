@@ -1,0 +1,33 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set up Node.js 18 environment
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Change directory to the `api` folder
+      - name: Change directory to API folder
+        run: cd api
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install
+
+      # Run tests
+      - name: Run tests
+        run: yarn test
+
+      # Build the application
+      - name: Build the application
+        run: yarn build
