@@ -31,3 +31,12 @@
   background-color: #636363;
   border-radius: 2px;
 }
+
+.messages-load-error {
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  /* font-weight: bold; */
+  color: white;
+}

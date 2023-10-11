@@ -15,15 +15,13 @@ import { useLogin } from "../../hooks";
 import { LoadingButton } from "../../components/LoadingButton";
 
 export function LoginScreen() {
-  const { handleSubmit, control, formState } = useForm({
+  const { handleSubmit, control } = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-
-  console.log(formState.errors)
 
   const { login, isLoading, data: loginData, error } = useLogin();
 

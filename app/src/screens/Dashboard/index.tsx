@@ -46,7 +46,7 @@ export function Dashboard() {
   const submit = (data: MessageSchema) =>
     createMessage(data, {
       onSuccess: () => {
-        setValue("content", "");
+        setValue("content", "" as never);
         setFocus("content");
         messages.refetch();
       },
@@ -72,17 +72,18 @@ export function Dashboard() {
         <div className="logout-btn" onClick={() => logout()}>
           Logout
         </div>
-        <MessageHistories
-          onMessageDeleted={() => {
-            setFocus("content");
-          }}
-        />
         <SendMessageForm
           onSubmit={handleSubmit(submit)}
           control={control}
           maxChars={MAX_CHARS}
           sending={sending}
           content={content}
+        />
+        <MessageHistories
+          messagesCreated={sending}
+          onMessageDeleted={() => {
+            setFocus("content");
+          }}
         />
       </Container>
     </>

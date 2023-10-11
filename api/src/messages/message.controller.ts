@@ -10,6 +10,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { MessagesService } from './message.service';
@@ -26,6 +27,18 @@ export class MessagesController {
   @Get()
   getAll(@GetAuth() auth: Auth) {
     return this.messagesService.find({ author: auth._id });
+  }
+
+  @Get('/personal')
+  getPersonalMessages(
+    @GetAuth() auth: Auth,
+    @Query('skip') skip: number,
+    @Query('limit') limit: number,
+  ) {
+    return this.messagesService.findPersonalMessages(
+      { author: auth._id },
+      { skip, limit },
+    );
   }
 
   @Post('/create')
