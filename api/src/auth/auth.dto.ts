@@ -1,4 +1,11 @@
-import { IsDate, IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AuthDto {
@@ -98,12 +105,13 @@ export class RefreshTokenApiResponse {
   })
   accessToken: string;
 
+  @IsOptional()
   @IsString()
   @ApiProperty({
     example: 'refresh token to renew access token and it self',
     description: 'HTTP only cookie or header["a_rt"]',
   })
-  refreshToken: string;
+  refreshToken?: string;
 }
 
 export class LoginApiResponse extends RefreshTokenApiResponse {

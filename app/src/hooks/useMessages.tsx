@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "react-query";
 import authenticatedApiClient from "../api/authenticatedApiClient";
-import { ApiErrorResponse } from "../types";
+import { ApiErrorResponse, GetPersonalMessagesApiResponse } from "../types";
 import { API_ENDPOINTS } from "../helpers";
 
 export const useMessages = () => {
@@ -17,7 +17,10 @@ export const useMessages = () => {
             error?.response?.data?.message || "Something went wrong"
           );
         }),
-    getNextPageParam: (lastPage: any, allPages: any[]) => {
+    getNextPageParam: (
+      lastPage: GetPersonalMessagesApiResponse,
+      _allPages: GetPersonalMessagesApiResponse[]
+    ) => {
       return lastPage.data.length < lastPage.limit
         ? undefined
         : `?limit=${lastPage.limit}&cursor=${

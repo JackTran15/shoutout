@@ -19,3 +19,10 @@ export type MessageDTO = {
   author: string;
   content: string;
 };
+
+export type GetPersonalMessagesApiResponse = {
+  data: MessageDTO[];
+  limit: number;
+  endCursor: string;
+  total: number;
+};

@@ -4,6 +4,7 @@ import { useMessages } from "../../../hooks/useMessages";
 import "./styles.css";
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useCreateMessage } from "../../../hooks/useCreateMessage";
+import { MessageDTO } from "../../../types";
 
 interface Props {
   onMessageDeleted?: () => void;
@@ -38,7 +39,7 @@ export const MessageHistories = (props: Props) => {
     historiesRef.current.scrollTop = 0;
   }, [props.messagesCreated]);
 
-  const displayMessages2 =
+  const displayMessages =
     messages.data?.pages
       ?.map((e) => e.data)
       .reduce((arr, data) => [...arr, ...data], []) || [];
@@ -51,7 +52,7 @@ export const MessageHistories = (props: Props) => {
           className="message-histories"
           ref={historiesRef}
         >
-          {displayMessages2?.map((e: any) => (
+          {displayMessages?.map((e: MessageDTO) => (
             <SentMessage
               data={e}
               key={e._id}

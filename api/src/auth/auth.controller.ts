@@ -45,7 +45,11 @@ export class AuthController {
       sameSite: 'lax',
     });
 
-    const result: any = { accessToken, account };
+    const result: LoginApiResponse = {
+      accessToken,
+      account,
+    };
+
     if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
     return result;
   }
@@ -65,7 +69,7 @@ export class AuthController {
       sameSite: 'lax',
     });
 
-    const result: any = { accessToken };
+    const result: RefreshTokenApiResponse = { accessToken };
     if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
     return result;
   }
