@@ -26,11 +26,10 @@ jobs:
 
   deploy:
     need: build
-    name: Deploy
     runs-on: ubuntu-latest
 
-    - name: Deploying
-      uses: appleboy/ssh-action@v1.0.0
+    steps:
+    - uses: appleboy/ssh-action@v1.0.0
       with:
         host: 139.180.156.22
         username: ${{ secrets.DEPLOY_HOST }}
