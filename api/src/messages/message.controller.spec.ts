@@ -136,7 +136,7 @@ describe('MessagesController', () => {
 
       const result = await messagesController.delete(messageId, auth as Auth);
 
-      expect(result).toEqual({ message: 'Message deleted successfully' });
+      expect(result).toEqual('ok');
       expect(mockMessagesService.delete).toHaveBeenCalledWith(messageId);
     });
   });
