@@ -32,6 +32,13 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm i -g yarn && npm i -g pm2
+
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.0
       with:
