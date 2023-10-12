@@ -18,7 +18,7 @@ export const useMessages = () => {
           );
         }),
     getNextPageParam: (lastPage: any, allPages: any[]) => {
-      return lastPage.data.length < lastPage
+      return lastPage.data.length < lastPage.limit
         ? undefined
         : `?limit=${lastPage.limit}&cursor=${
             lastPage.data[lastPage.data.length - 1]?._id

@@ -55,10 +55,7 @@ export const MessageHistories = (props: Props) => {
             <SentMessage
               data={e}
               key={e._id}
-              onDelete={() => {
-                messages.refetch();
-                props.onMessageDeleted?.();
-              }}
+              onDelete={props.onMessageDeleted}
             />
           ))}
         </div>

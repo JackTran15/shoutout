@@ -15,7 +15,12 @@ export const SentMessage = ({ data, onDelete }: Props) => {
   return (
     <div className="sent-message d-flex justify-content-end p-2 w-100 align-items-center gap-2">
       {deleting ? (
-        <Spinner className="sent-message-loading" color="secondary" size={"sm"} style={{ opacity: 0.5 }} />
+        <Spinner
+          className="sent-message-loading"
+          color="secondary"
+          size={"sm"}
+          style={{ opacity: 0.5 }}
+        />
       ) : (
         <div
           className="delete-message-btn"
@@ -23,7 +28,6 @@ export const SentMessage = ({ data, onDelete }: Props) => {
             deleteMessage(_id, {
               onSuccess: () => {
                 onDelete?.();
-                // refetch();
               },
               onError() {
                 toast.error("Message delete unsuccessfully", {
