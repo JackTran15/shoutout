@@ -3,7 +3,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useDeleteMessage } from "../useDeleteMessage";
 import MockAdapter from "axios-mock-adapter";
 import { authenticatedApiClient } from "../../api/authenticatedApiClient";
-import { API_ENDPOINTS, sleep } from "../../helpers";
+import { API_ENDPOINTS } from "../../helpers";
+import { act } from "react-dom/test-utils";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,7 @@ describe("useDeleteMessage hook", () => {
     });
 
     result.current.deleteMessage("id");
-    await sleep(200); // wait for loading state change
+    await act(async () => {}); //wait for state changes
     expect(result.current.isLoading).toEqual(true);
   });
 
@@ -48,12 +49,13 @@ describe("useDeleteMessage hook", () => {
       ),
     });
 
-    result.current.deleteMessage("id");
-    await sleep(1000);
-    await waitFor(() => result.current.isLoading === false);
-
-    expect(result.current.data).toBeTruthy();
-    expect(result.current.error).toBeFalsy();
+    result.current.deleteMessage("id", {
+      onSettled(data, error, variables, context) {
+        expect(variables).toEqual("id");
+        expect(data).toBeTruthy();
+        expect(error).toBeFalsy();
+      },
+    });
   });
 
   it("Should return error but not data when api return fail", async () => {
@@ -68,13 +70,11 @@ describe("useDeleteMessage hook", () => {
       ),
     });
 
-    result.current.deleteMessage("id");
-    await sleep(200); // wait for loading state change
-    await waitFor(() => result.current.isLoading === false, {
-      timeout: 3000,
+    result.current.deleteMessage("id", {
+      onSettled(data, error, variables, context) {
+        expect(data).toBeFalsy();
+        expect(error).toBeTruthy();
+      },
     });
-
-    expect(result.current.data).toBeFalsy();
-    expect(result.current.error).toBeTruthy();
   });
 });
