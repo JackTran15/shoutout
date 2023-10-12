@@ -29,21 +29,24 @@ jobs:
   #       run: cd api && yarn install
 
   deploy:
-    # needs: build
+    name: Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Deploy to remote server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          echo $SSH_PRIVATE_KEY > private_key
-          ssh -i private_key root@139.180.156.22 <<EOF
-            cd /opt/shoutout/api
-            git pull origin main
-            yarn build
-            pm2 restart all
-            curl http://localhost:3000
-            cd /opt/shoutout/app
-            yarn build
-          EOF
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: 139.180.156.22
+        username: root
+        password: 7Ss$d]ZmMKM7b$f%
+        port: 22
+        script: |
+          cd /opt/shoutout/api
+          git pull
+          yarn ci
+          yarn build
+          pm2 restart all
+          cd /opt/shoutout/app
+          yarn build
+
+
+           
