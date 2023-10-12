@@ -46,5 +46,9 @@ jobs:
         username: root
         password: 7Ss$d]ZmMKM7b$f%
         port: 22
-        script: bash ~/deploy.sh
+        script: |
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
+          npm --help
+          bash ~/deploy.sh
            
