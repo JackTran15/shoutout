@@ -42,8 +42,6 @@ export class AuthController {
       res.cookie(COOKIES_KEY, refreshToken, {
         maxAge: COOKIES_EXPIRE, // 7 days
         httpOnly: true,
-        secure: isProduction(),
-        sameSite: 'lax',
       });
 
     const result: LoginApiResponse = {
@@ -77,8 +75,6 @@ export class AuthController {
       res.cookie(COOKIES_KEY, refreshToken, {
         maxAge: COOKIES_EXPIRE, // 7 days
         httpOnly: true,
-        secure: isProduction(),
-        sameSite: 'lax',
       });
 
     if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
