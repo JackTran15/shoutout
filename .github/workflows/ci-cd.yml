@@ -29,7 +29,7 @@ jobs:
   #       run: cd api && yarn install
 
   deploy:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
 
     steps:
