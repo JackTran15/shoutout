@@ -31,7 +31,6 @@ export function RegisterScreen() {
   const submit = (data: RegisterSchema) =>
     register(data, {
       onSuccess(_, variables) {
-        console.log("day", variables);
         login(
           {
             email: variables.email,

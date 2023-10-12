@@ -2,8 +2,7 @@ import { Spinner } from "reactstrap";
 import { SentMessage } from "../../../components/SentMessage";
 import { useMessages } from "../../../hooks/useMessages";
 import "./styles.css";
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
-import { useCreateMessage } from "../../../hooks/useCreateMessage";
+import { useEffect, useRef } from "react";
 import { MessageDTO } from "../../../types";
 
 interface Props {
@@ -21,10 +20,7 @@ export const MessageHistories = (props: Props) => {
       const { scrollHeight, scrollTop, clientHeight } = event.target;
 
       if (!messages.isLoading && scrollHeight - scrollTop <= clientHeight) {
-        if (messages.hasNextPage) {
-          console.log("fetching");
-          await messages.fetchNextPage();
-        }
+        if (messages.hasNextPage) await messages.fetchNextPage();
       }
     };
 
@@ -63,13 +59,16 @@ export const MessageHistories = (props: Props) => {
       )}
 
       {messages.error ? (
-        <h2 className="messages-load-error">{"Cannot load messages"}</h2>
+        <h2 id="messages-load-eror" className="messages-load-error">
+          {"Cannot load messages"}
+        </h2>
       ) : (
         <></>
       )}
 
       {messages.isLoading && (
         <Spinner
+          id="messsage-loading-spinner"
           color="light"
           style={{ width: 40, height: 40, opacity: 0.3 }}
         />
