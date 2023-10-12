@@ -29,6 +29,7 @@ jobs:
         run: cd api && yarn install
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -36,8 +37,9 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh-keyscan -H 139.180.156.22 >> $HOME/.ssh/known_hosts
-          ssh -i $HOME/.ssh/id_rsa root@139.180.156.22 <<EOF
+          echo temp > ~/.ssh/known_hosts
+          ssh-keyscan -H 139.180.156.22 >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_rsa root@139.180.156.22 <<EOF
             cd /opt/shoutout/api
             git pull origin main
             yarn build
