@@ -5,28 +5,28 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      # Set up Node.js 18 environment
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+  #     # Set up Node.js 18 environment
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18'
 
-      # Install dependencies
-      - name: Install dependencies
-        run: cd api && yarn install
+  #     # Install dependencies
+  #     - name: Install dependencies
+  #       run: cd api && yarn install
 
-      # Run tests
-      - name: Run tests
-        run: cd api && yarn install
+  #     # Run tests
+  #     - name: Run tests
+  #       run: cd api && yarn install
 
-      # Build the application
-      - name: Build the application
-        run: cd api && yarn install
+  #     # Build the application
+  #     - name: Build the application
+  #       run: cd api && yarn install
 
   deploy:
     needs: build
