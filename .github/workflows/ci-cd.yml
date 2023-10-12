@@ -25,7 +25,7 @@ jobs:
         run: cd app && yarn install && yarn test
 
   deploy:
-    need: build
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
