@@ -18,6 +18,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(3000 || process.env.API_PORT);
+  await app.listen(3000 || process.env.API_PORT, 'localhost');
 }
 bootstrap();
