@@ -15,6 +15,12 @@ This shoutout project is a application allow user to post / delete short message
 - Unit test: react-testing-library, js-dom, vitest, axios-mock-adapter
 
 ### Development
+
+1. In the root directory
+2. Open ./app folder
+3. create .env file
+4. copy .example.env content -> .env
+
 ```
 # in the root directory
 
@@ -43,6 +49,11 @@ yarn test
 - Unit test: Jest, mongo-server-in-memory
 
 ### Development
+
+1. In the root directory
+2. Open ./api folder
+3. create .env file
+4. copy .example.env content -> .env
 
 ```
 # in the root directory

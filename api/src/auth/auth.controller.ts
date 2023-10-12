@@ -9,7 +9,7 @@ import {
 import { ParsedUserAgent, UserAgent } from '../decorators/userAgent.decorator';
 import { RefreshToken } from '../decorators/refreshToken.decorator';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { COOKIES_EXPIRE, COOKIES_KEY, isProduction } from '../common/constants';
+import { COOKIES_EXPIRE, COOKIES_KEY } from '../common/constants';
 
 @Controller('auth')
 export class AuthController {
