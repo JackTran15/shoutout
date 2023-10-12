@@ -3,12 +3,25 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as cookieParser from 'cookie-parser';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { isProduction } from './common/constants';
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const whitelist = process.env.WHITELIST?.split(',')
+  const whitelist = process.env.WHITELIST?.split(',');
+
+  const options = new DocumentBuilder()
+    .setTitle('API documentation')
+    .setDescription('The Shoutout Api documentation')
+    .setVersion('1.0')
+    .addTag('API')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+
+  if (!isProduction()) SwaggerModule.setup('api', app, document);
 
   app.enableCors({
     origin: whitelist,
@@ -22,4 +35,5 @@ async function bootstrap() {
 
   await app.listen(3000 || process.env.API_PORT, 'localhost');
 }
+
 bootstrap();

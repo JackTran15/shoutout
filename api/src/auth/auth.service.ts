@@ -6,6 +6,7 @@ import {
   AccessTokenPayloadDTO,
   AuthLoginDTO,
   AuthRegisterDTO,
+  RefreshTokenApiResponse,
 } from './auth.dto';
 import { BaseCrudService } from '../common/base';
 import { Model } from 'mongoose';
@@ -91,7 +92,7 @@ export class AuthService extends BaseCrudService<Auth> {
     };
   }
 
-  async renewTokens(token: string) {
+  async renewTokens(token: string): Promise<RefreshTokenApiResponse> {
     const payload = await this.jwtService.verifyAsync(token).catch(() => {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     });

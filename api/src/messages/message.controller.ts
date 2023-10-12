@@ -1,5 +1,3 @@
-// generate nestjs controller
-
 import {
   Body,
   Controller,
@@ -15,9 +13,10 @@ import {
 } from '@nestjs/common';
 import { MessagesService } from './message.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { MessageDTO } from './message.dto';
+import { CreateMessageApiResponse, MessageDTO } from './message.dto';
 import { GetAuth } from '../decorators/auth.decorator';
 import { Auth } from '../auth/auth.model';
+import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('messages')
 @UseGuards(AuthGuard)
@@ -38,12 +37,20 @@ export class MessagesController {
   }
 
   @Post('/create')
+  @ApiOkResponse({
+    status: 201,
+    type: CreateMessageApiResponse,
+  })
   create(@Body() data: MessageDTO, @GetAuth() auth: Auth) {
     data.author = auth._id;
     return this.messagesService.create(data);
   }
 
   @Put(':id')
+  @ApiOkResponse({
+    status: 200,
+    type: CreateMessageApiResponse,
+  })
   udpate(@Body() data: MessageDTO, @Param('id') id: string, @GetAuth() auth) {
     data.updatedAt = new Date();
     data.author = auth.id;
@@ -51,6 +58,11 @@ export class MessagesController {
   }
 
   @Delete(':id')
+  @ApiOkResponse({
+    status: 200,
+    type: String,
+    description: 'ok',
+  })
   async delete(@Param('id') id: string, @GetAuth() auth: Auth) {
     const exists = await this.messagesService.findById(id);
     if (!exists) throw new NotFoundException('Messages is not exists');
@@ -58,6 +70,7 @@ export class MessagesController {
     if (exists.author.toString() !== auth._id.toString())
       throw new ForbiddenException('You do not own this message');
 
-    return this.messagesService.delete(id);
+    await this.messagesService.delete(id);
+    return 'ok';
   }
 }
