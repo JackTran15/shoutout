@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class MessageDTO {
   @IsString()
@@ -22,7 +28,7 @@ export class MessageDTO {
 export class CreateMessageApiResponse extends MessageDTO {
   @IsOptional()
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ example: 'mongoDB objectID' })
   _id: string;
 
   @IsOptional()
@@ -36,6 +42,35 @@ export class CreateMessageApiResponse extends MessageDTO {
   createdAt: Date;
 
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ example: 'user_id' })
   author: string;
+}
+
+export class GetPersonalMessagesApiResponse {
+  @ApiProperty({
+    isArray: true,
+    example: [
+      {
+        _id: 'mongoDB_ObjectId',
+        content: 'message_content',
+        author: 'user_id',
+        updatedAt: '2023-10-12T10:41:50.452Z',
+        createdAt: '2023-10-12T10:41:50.452Z',
+        __v: 0,
+      },
+    ],
+  })
+  data: CreateMessageApiResponse[];
+
+  @ApiProperty()
+  @IsNumber()
+  limit: number;
+
+  @ApiProperty({ example: 'last_message_id' })
+  @IsNumber()
+  endCursor: string;
+
+  @ApiProperty()
+  @IsNumber()
+  total: number;
 }

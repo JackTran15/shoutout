@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { isProduction } from './common/constants';
+import { LoggerErrorInterceptor } from 'nestjs-pino';
 dotenv.config();
 
 async function bootstrap() {
@@ -32,6 +33,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.useGlobalPipes(new ValidationPipe());
+
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
   await app.listen(3000 || process.env.API_PORT, 'localhost');
 }

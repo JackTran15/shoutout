@@ -43,7 +43,6 @@ export class AuthService extends BaseCrudService<Auth> {
     const account = new this.authModel({
       email,
       password: hashedPassword,
-      salt,
     });
 
     await account.save();
@@ -69,7 +68,7 @@ export class AuthService extends BaseCrudService<Auth> {
     if (!account)
       throw new HttpException('Account not found', HttpStatus.UNAUTHORIZED);
 
-    const { password: accountPassword, salt: _, ...accountInfo } = account;
+    const { password: accountPassword, ...accountInfo } = account;
     const isValidPassword = await bcrypt.compareSync(password, accountPassword);
 
     if (!isValidPassword)
@@ -85,6 +84,8 @@ export class AuthService extends BaseCrudService<Auth> {
 
     const refreshToken = this.generateRefreshToken({ _id: accountInfo._id });
 
+    await this.update(accountInfo._id, { refreshToken });
+
     return {
       account: accountInfo,
       accessToken,
@@ -97,12 +98,23 @@ export class AuthService extends BaseCrudService<Auth> {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     });
 
-    const account = await this.authModel.findOne({ _id: payload._id });
+    const account = await this.authModel.findOne({
+      _id: payload._id,
+    });
+
+    if (account.refreshToken !== token)
+      throw new HttpException('Session expired', HttpStatus.UNAUTHORIZED);
+
     if (!account)
-      throw new HttpException('Account not found', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Account not found or token',
+        HttpStatus.UNAUTHORIZED,
+      );
 
     const accessToken = this.generateAccessToken(account);
     const refreshToken = this.generateRefreshToken(account);
+
+    await this.update(account._id, { refreshToken });
 
     return {
       accessToken,

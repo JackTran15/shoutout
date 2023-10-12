@@ -38,12 +38,13 @@ export class AuthController {
       data,
     );
 
-    res.cookie(COOKIES_KEY, refreshToken, {
-      maxAge: COOKIES_EXPIRE, // 7 days
-      httpOnly: true,
-      secure: isProduction(),
-      sameSite: 'lax',
-    });
+    if (userAgent?.browser?.name)
+      res.cookie(COOKIES_KEY, refreshToken, {
+        maxAge: COOKIES_EXPIRE, // 7 days
+        httpOnly: true,
+        secure: isProduction(),
+        sameSite: 'lax',
+      });
 
     const result: LoginApiResponse = {
       accessToken,
@@ -51,10 +52,16 @@ export class AuthController {
     };
 
     if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
+
     return result;
   }
 
   @Patch('/refresh')
+  @ApiOkResponse({
+    status: 200,
+    description: 'renew refresh token, access token by current refresh token',
+    type: RefreshTokenApiResponse,
+  })
   async renewTokens(
     @RefreshToken() token: string,
     @UserAgent() userAgent: ParsedUserAgent,
@@ -62,15 +69,18 @@ export class AuthController {
   ): Promise<RefreshTokenApiResponse> {
     const { refreshToken, accessToken } = await this.service.renewTokens(token);
 
-    res.cookie(COOKIES_KEY, refreshToken, {
-      maxAge: COOKIES_EXPIRE, // 7 days
-      httpOnly: true,
-      secure: isProduction(),
-      sameSite: 'lax',
-    });
-
     const result: RefreshTokenApiResponse = { accessToken };
+
+    if (userAgent?.browser?.name)
+      res.cookie(COOKIES_KEY, refreshToken, {
+        maxAge: COOKIES_EXPIRE, // 7 days
+        httpOnly: true,
+        secure: isProduction(),
+        sameSite: 'lax',
+      });
+
     if (!userAgent?.browser?.name) result.refreshToken = refreshToken;
+
     return result;
   }
 }

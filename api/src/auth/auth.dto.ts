@@ -27,17 +27,12 @@ export class AuthDto {
   password: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @ApiProperty({
     example: 'refreshToken123',
     description: 'The user refresh token',
   })
-  refreshToken: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ example: 'salt123', description: 'The user salt' })
-  salt: string;
+  refreshToken?: string;
 
   createdAt: Date;
   updatedAt: Date;

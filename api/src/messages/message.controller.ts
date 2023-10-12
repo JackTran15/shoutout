@@ -13,7 +13,11 @@ import {
 } from '@nestjs/common';
 import { MessagesService } from './message.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { CreateMessageApiResponse, MessageDTO } from './message.dto';
+import {
+  CreateMessageApiResponse,
+  GetPersonalMessagesApiResponse,
+  MessageDTO,
+} from './message.dto';
 import { GetAuth } from '../decorators/auth.decorator';
 import { Auth } from '../auth/auth.model';
 import { ApiOkResponse } from '@nestjs/swagger';
@@ -24,6 +28,11 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Get('/personal')
+  @ApiOkResponse({
+    status: 200,
+    type: GetPersonalMessagesApiResponse,
+    description: 'get messages of current user',
+  })
   getPersonalMessages(
     @GetAuth() auth: Auth,
     @Query('cursor') endCursor: string,

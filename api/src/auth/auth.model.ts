@@ -9,11 +9,9 @@ export class Auth extends Document {
   @Prop({ required: true })
   password: string;
 
-  // @Prop({ required: true })
-  // refreshToken: string;
-
-  @Prop({ required: true })
-  salt: string;
+  // 1 refresh token is accepted in 1 time
+  @Prop({ required: false })
+  refreshToken: string;
 
   @Prop({ default: new Date() })
   createdAt: Date;
