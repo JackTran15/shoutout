@@ -66,11 +66,12 @@ describe('MessagesController', () => {
 
   describe('create', () => {
     it('should create a new message', async () => {
-      const messageDTO: MessageDTO = {
+      const messageDTO = {
         content: 'Hello',
         author: 'user123',
         updatedAt: new Date(),
-      };
+        createdAt: new Date(),
+      } as MessageDTO;
 
       const auth = {
         _id: 'user123',
@@ -95,6 +96,7 @@ describe('MessagesController', () => {
         content: 'Updated',
         author: 'user123',
         updatedAt: new Date(),
+        createdAt: new Date(),
       };
       const messageId = 'message123';
       const auth = { id: 'user123' };
