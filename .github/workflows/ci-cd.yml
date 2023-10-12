@@ -16,19 +16,16 @@ jobs:
         with:
           node-version: '18'
 
-      # Install dependencies
-      - name: Install dependencies
-        run: cd api && yarn install
+      # Run API tests
+      - name: Test Api
+        run: cd api && yarn install && yarn test
 
-      # Run tests
-      - name: Run tests
-        run: cd api && yarn install
-
-      # Build the application
-      - name: Build the application
-        run: cd api && yarn install
+      # Run APP tests
+      - name: Test Api
+        run: cd app && yarn install && yarn test
 
   deploy:
+    need: build
     name: Deploy
     runs-on: ubuntu-latest
 
