@@ -5,46 +5,38 @@ on:
     branches: [ main ]
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     # Set up Node.js 18 environment
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '18'
+      # Set up Node.js 18 environment
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-  #     # Install dependencies
-  #     - name: Install dependencies
-  #       run: cd api && yarn install
+      # Install dependencies
+      - name: Install dependencies
+        run: cd api && yarn install
 
-  #     # Run tests
-  #     - name: Run tests
-  #       run: cd api && yarn install
+      # Run tests
+      - name: Run tests
+        run: cd api && yarn install
 
-  #     # Build the application
-  #     - name: Build the application
-  #       run: cd api && yarn install
+      # Build the application
+      - name: Build the application
+        run: cd api && yarn install
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '18'
 
-    - name: Install dependencies
-      run: npm i -g yarn && npm i -g pm2
-
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.0
+    - uses: appleboy/ssh-action@v1.0.0
       with:
         host: 139.180.156.22
-        username: root
-        password: 7Ss$d]ZmMKM7b$f%
+        username: ${{ secrets.DEPLOY_HOST }}
+        key: ${{ secrets.DEPLOY_KEY }}
         port: 22
         script: |
           export NVM_DIR=~/.nvm
