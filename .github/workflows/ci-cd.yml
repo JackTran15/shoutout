@@ -27,3 +27,22 @@ jobs:
       # Build the application
       - name: Build the application
         run: cd api && yarn install
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to remote server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          ssh-keyscan -H 139.180.156.22 >> $HOME/.ssh/known_hosts
+          ssh -i $HOME/.ssh/id_rsa root@139.180.156.22 <<EOF
+            cd /opt/shoutout/api
+            git pull origin main
+            yarn build
+            pm2 restart all
+            curl http://localhost:3000
+            cd /opt/shoutout/app
+            yarn build
+          EOF
