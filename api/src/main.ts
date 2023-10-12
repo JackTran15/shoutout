@@ -21,7 +21,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
 
-  if (!isProduction()) SwaggerModule.setup('api', app, document);
+  // if (!isProduction()) SwaggerModule.setup('api', app, document);
 
   app.enableCors({
     origin: whitelist,
