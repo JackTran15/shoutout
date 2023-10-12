@@ -6,9 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { MessageModule } from './messages/message.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
+    LoggerModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -24,4 +26,4 @@ import { ConfigService } from './config/config.service';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

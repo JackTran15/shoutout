@@ -8,8 +8,10 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const whitelist = process.env.WHITELIST?.split(',')
+
   app.enableCors({
-    origin: process.env.WHITELIST, // Add the origin you want to allow
+    origin: whitelist,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
