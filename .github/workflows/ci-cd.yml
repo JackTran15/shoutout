@@ -17,12 +17,12 @@ jobs:
           node-version: '18'
 
       # Run API tests
-      - name: Test Api
-        run: cd api && yarn install && yarn test
+      - name: Test Api 
+        run: cd api && yarn install && yarn build && yarn test 
 
       # Run APP tests
       - name: Test Api
-        run: cd app && yarn install && yarn test
+        run: cd app && yarn install && yarn build && yarn test
 
   deploy:
     needs: build
@@ -31,10 +31,10 @@ jobs:
     steps:
     - uses: appleboy/ssh-action@v1.0.0
       with:
-        host: 139.180.156.22
-        username: ${{ secrets.DEPLOY_HOST }}
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
         key: ${{ secrets.DEPLOY_KEY }}
-        port: 22
+        port: ${{ secrets.DEPLOY_PORT }}
         script: |
           export NVM_DIR=~/.nvm
           source ~/.nvm/nvm.sh
