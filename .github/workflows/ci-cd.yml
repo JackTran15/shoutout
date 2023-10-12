@@ -40,13 +40,14 @@ jobs:
         password: 7Ss$d]ZmMKM7b$f%
         port: 22
         script: |
+          node -v
+          npm i -g pm2
+          npm i -g yarn
           cd /opt/shoutout/api
           git pull
-          yarn ci
-          yarn build
+          npm ci
+          npm run build
           pm2 restart all
           cd /opt/shoutout/app
           yarn build
-
-
            
