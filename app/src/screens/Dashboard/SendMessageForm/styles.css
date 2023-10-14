@@ -42,6 +42,12 @@
   }
 }
 
+.send-message-btn {
+  outline: none;
+  border: none;
+  background: none;
+}
+
 .send-message-btn-loading {
   filter: brightness(100);
 }

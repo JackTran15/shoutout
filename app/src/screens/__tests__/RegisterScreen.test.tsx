@@ -9,7 +9,6 @@ const queryClient = new QueryClient();
 describe("RegisterScreen", () => {
   it("renders the register form and handles successful register", async () => {
     const mockRegister = vi.fn();
-    const mockLogin = vi.fn();
 
     vi.spyOn(registerHook, "useRegister").mockImplementation(() => {
       return {

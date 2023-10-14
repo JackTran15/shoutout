@@ -13,6 +13,7 @@ interface Props {
 
 export const SendMessageForm = (props: Props) => {
   const { control, maxChars, onSubmit, sending, content } = props;
+
   return (
     <Form
       className="messages-form-container p-md-2 p-sm-1"
@@ -37,12 +38,12 @@ export const SendMessageForm = (props: Props) => {
       />
 
       <button
+        id="send-messsage-btn"
         className={`
         send-message-btn 
         ${sending ? "send-message-btn-disabled" : ""}
       `}
         type="submit"
-        style={{ outline: "none", border: "none", background: "none" }}
         disabled={!content.length || sending}
       >
         <img
