@@ -69,8 +69,6 @@ export class AuthController {
 
     const result: RefreshTokenApiResponse = { accessToken };
 
-    console.log('userAgent?.browser?.name', userAgent?.browser?.name);
-
     if (userAgent?.browser?.name)
       res.cookie(COOKIES_KEY, refreshToken, {
         maxAge: COOKIES_EXPIRE, // 7 days

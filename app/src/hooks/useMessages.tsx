@@ -10,10 +10,6 @@ export const useMessages = (enabled: boolean = true) => {
     queryKey: ["getMessages"],
 
     queryFn: ({ pageParam = "?limit=10" }) => {
-      console.log(
-        "API_ENDPOINTS.getPersonalMessages + pageParam",
-        API_ENDPOINTS.getPersonalMessages + pageParam
-      );
       return authenticatedApiClient
         .get(API_ENDPOINTS.getPersonalMessages + pageParam)
         .then((res) => res.data)
