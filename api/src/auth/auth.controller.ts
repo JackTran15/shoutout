@@ -9,7 +9,7 @@ import {
 import { ParsedUserAgent, UserAgent } from '../decorators/userAgent.decorator';
 import { RefreshToken } from '../decorators/refreshToken.decorator';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { COOKIES_EXPIRE, COOKIES_KEY } from '../common/constants';
+import { COOKIES_EXPIRE, COOKIES_REFRESH_TOKEN_KEY } from '../common/constants';
 
 @Controller('auth')
 export class AuthController {
@@ -39,7 +39,7 @@ export class AuthController {
     );
 
     if (userAgent?.browser?.name)
-      res.cookie(COOKIES_KEY, refreshToken, {
+      res.cookie(COOKIES_REFRESH_TOKEN_KEY, refreshToken, {
         maxAge: COOKIES_EXPIRE, // 7 days
         httpOnly: true,
       });
@@ -70,7 +70,7 @@ export class AuthController {
     const result: RefreshTokenApiResponse = { accessToken };
 
     if (userAgent?.browser?.name)
-      res.cookie(COOKIES_KEY, refreshToken, {
+      res.cookie(COOKIES_REFRESH_TOKEN_KEY, refreshToken, {
         maxAge: COOKIES_EXPIRE, // 7 days
         httpOnly: true,
       });

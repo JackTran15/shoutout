@@ -104,7 +104,7 @@ export class RefreshTokenApiResponse {
   @IsString()
   @ApiProperty({
     example: 'refresh token to renew access token and it self',
-    description: 'HTTP only cookie or header["a_rt"]',
+    description: 'HTTP only cookie or header["a-rt"]',
   })
   refreshToken?: string;
 }
